@@ -1,11 +1,7 @@
-import React, { useState } from "react";
-
-const TodoBar = () => {
-  const [todoList, setTodoList] = useState([
-    { id: 1, title: "To Do", status: "todo" },
-    { id: 2, title: "InProgress", status: "in-progress" },
-    { id: 3, title: "Completed", status: "completed" },
-  ]);
+import React from "react";
+const TodoBar = ({ todoList, handleDrop }) => {
+  const getTodosByStatus = (status) =>
+    todoList.filter((todo) => todo.status === status);
 
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData("text/plain", id);
@@ -14,22 +10,10 @@ const TodoBar = () => {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
-  const handleDrop = (e, status) => {
-    const id = e.dataTransfer.getData("text");
-    const updatedList = todoList.map((todo) =>
-      todo.id === parseInt(id) ? { ...todo, status: status } : todo
-    );
-    setTodoList(updatedList);
-  };
-
-  const getTodosByStatus = (status) =>
-    todoList.filter((todo) => todo.status === status);
-
   return (
-    <div className="flex  px-10  self-stretch ">
+    <div className="self-stretch ">
       <div
-        className="w-full p-3 rounded-md"
+        className="w-full pt-1 rounded-md"
         onDragOver={(e) => handleDragOver(e)}
         onDrop={(e) => handleDrop(e, "todo")}
       >
@@ -50,7 +34,7 @@ const TodoBar = () => {
         ))}
       </div>
       <div
-        className="w-full p-3  rounded-md mx-4"
+        className="w-full  pt-1  rounded-md "
         onDragOver={(e) => handleDragOver(e)}
         onDrop={(e) => handleDrop(e, "in-progress")}
       >
@@ -71,7 +55,7 @@ const TodoBar = () => {
         ))}
       </div>
       <div
-        className="w-full p-3  rounded-md flex"
+        className="w-full pt-1  rounded-md flex"
         onDragOver={(e) => handleDragOver(e)}
         onDrop={(e) => handleDrop(e, "completed")}
       >
